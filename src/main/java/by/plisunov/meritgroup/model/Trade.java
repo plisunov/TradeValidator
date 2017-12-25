@@ -264,8 +264,8 @@ public class Trade {
 
 	@Override
 	public String toString() {
-		return "Customer: " + this.customer.get() + ", trade date " + this.tradeDate.get() + ", type "
-				+ this.type.get();
+		return "Customer: <b>" + this.customer.get() + "</b><br> Trade date: <b>" + this.tradeDate.get()
+				+ "</b><br> Type: <b>" + this.type.get() + "</b>";
 	}
 
 }

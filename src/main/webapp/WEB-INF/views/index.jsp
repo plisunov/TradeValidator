@@ -66,6 +66,20 @@
 				});
 			});
 			$('#results').tabulator({
+				pagination : "local",
+				paginationSize : 8,
+				layout : "fitData",
+				rowFormatter : function(row) {
+					if (row.data().data.status == "Ok") {
+						row.css({
+							"background-color" : "#90EE90"
+						});
+					} else {
+						row.css({
+							"background-color" : "#FFA07A"
+						});
+					}
+				},
 				columns : [ {
 					title : "Trade",
 					field : "trade",
