@@ -44,7 +44,8 @@ public class RestWebController {
 	 * 
 	 * @param request
 	 *            - Json arrays of trades.
-	 * @return
+	 * @return Json with results info or BadRequest(400) or Internal Server Error
+	 *         (500)
 	 */
 	@RequestMapping(value = "validate", method = RequestMethod.POST)
 	public @ResponseBody Object validateTrades(@RequestBody final String request) {
@@ -52,17 +53,20 @@ public class RestWebController {
 			Trade[] tradeListAsArray = mapper.readValue(request, Trade[].class);
 			return mapper.writeValueAsString(tradeValidateService.validateTradeList(Arrays.asList(tradeListAsArray)));
 		} catch (JsonParseException e) {
-			logger.debug(e.getStackTrace().toString());
+			logger.debug("JSON parsin error " + e.getStackTrace().toString());
 			logger.debug("JSON: " + request);
 			return ResponseEntity.badRequest().build();
 		} catch (JsonMappingException e) {
-			logger.debug(e.getStackTrace().toString());
+			logger.debug("JSON parsin to object error " + e.getStackTrace().toString());
 			logger.debug("JSON: " + request);
 			return ResponseEntity.badRequest().build();
 		} catch (IOException e) {
-			logger.debug(e.getStackTrace().toString());
+			logger.debug("JSON file error " + e.getStackTrace().toString());
 			logger.debug("JSON: " + request);
 			return ResponseEntity.badRequest().build();
+		} catch (Exception e) {
+			logger.debug("Application error " + e.getStackTrace().toString());
+			return ResponseEntity.status(500).build();
 		}
 	}
 }
